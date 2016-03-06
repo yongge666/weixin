@@ -2,10 +2,6 @@
 <link href="{:CUSTOM_TEMPLATE_PATH}Index/ColorV1/main.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
 <body id="weisite">
 <div class="container">
-    <if condition="empty($slideshow) && empty($category)">
-    <p>&nbsp;</p><p>&nbsp;</p>
-    <p>管理员还没有配置分类或者幻灯片数据，请先等配置后再看</p>
-    <else />
     <if condition="!empty($slideshow)">
     <section class="banner">
     	<ul>
@@ -35,7 +31,6 @@
         </div>
     </section>
     </if>
-    </if>
 </div>
 <!-- 底部导航 -->
 {$footer_html}
@@ -43,10 +38,6 @@
 <notempty name="config.code">
 <p class="hide bdtongji">
 {$config.code}
-</p>
-<else />
-<p class="hide bdtongji">
-{$tongji_code}
 </p>
 </notempty>
 </body>

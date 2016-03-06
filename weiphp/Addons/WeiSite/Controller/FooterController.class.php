@@ -17,13 +17,14 @@ class FooterController extends BaseController {
 		
 		// 搜索条件
 		$map = $this->_search_map ( $this->model, $fields );
-		$list_data ['list_data'] = $this->get_data ( $map );
 		
+		$list_data ['list_data'] = $this->get_data ( $map );
 		$this->assign ( $list_data );
 		
 		// 使用提示
 		$normal_tips = '一级主菜单最多4个，菜单风格1-8子菜单最多6个，菜单风格9-16子菜单最多10个。<br/>
-				一键拨号填写范例：tel:136xxxx1570请拷贝代码粘帖到输入框，修改电话';
+				一键拨号填写范例：tel:136xxxx1570请拷贝代码粘帖到输入框，修改电话号码。<br/>
+				一键导航填写范例：左侧菜单有“一键导航url生成工具”。';
 		$this->assign ( 'normal_tips', $normal_tips );
 		
 		$this->display ();
@@ -85,7 +86,7 @@ class FooterController extends BaseController {
 			
 			$fields = get_model_attribute ( $this->model ['id'] );
 			if (! empty ( $extra )) {
-				foreach ( $fields as &$vo ) {
+				foreach ( $fields [1] as &$vo ) {
 					if ($vo ['name'] == 'pid') {
 						$vo ['extra'] .= "\r\n" . $extra;
 					}
@@ -95,11 +96,6 @@ class FooterController extends BaseController {
 			// 获取数据
 			$data = M ( get_table_name ( $this->model ['id'] ) )->find ( $id );
 			$data || $this->error ( '数据不存在！' );
-			
-			$token = get_token ();
-			if (isset ( $data ['token'] ) && $token != $data ['token'] && defined ( 'ADDON_PUBLIC_PATH' )) {
-				$this->error ( '非法访问！' );
-			}
 			
 			$this->assign ( 'fields', $fields );
 			$this->assign ( 'data', $data );
@@ -122,7 +118,6 @@ class FooterController extends BaseController {
 		} else {
 			// 获取一级菜单
 			$map ['pid'] = 0;
-			$map ['token'] = get_token ();
 			$list = $Model->where ( $map )->select ();
 			foreach ( $list as $v ) {
 				$extra .= $v ['id'] . ':' . $v ['title'] . "\r\n";
@@ -130,7 +125,7 @@ class FooterController extends BaseController {
 			
 			$fields = get_model_attribute ( $this->model ['id'] );
 			if (! empty ( $extra )) {
-				foreach ( $fields as &$vo ) {
+				foreach ( $fields [1] as &$vo ) {
 					if ($vo ['name'] == 'pid') {
 						$vo ['extra'] .= "\r\n" . $extra;
 					}

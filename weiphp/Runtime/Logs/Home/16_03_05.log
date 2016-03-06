@@ -1,0 +1,15 @@
+[ 2016-03-05T11:54:50+08:00 ] 49.211.1.134 /weixin/weiphp/index.php?s=/addon/Vote/Vote/lists.html&mdm=17
+ERR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'qdm107641597_db.wx_vote' doesn't exist
+
+[ 2016-03-05T12:59:38+08:00 ] 49.211.1.134 /weixin/weiphp/index.php?s=/addon/Scratch/Scratch/show/token/gh_c52701ad68d3/openid/oD4PxjjVsNaThoVhIX1wD0gIqPD4/id/1.html
+ERR: Think\Controller:show方法不存在！
+
+[ 2016-03-05T12:59:45+08:00 ] 49.211.1.134 /weixin/weiphp/index.php?s=/addon/Scratch/Scratch/show/token/gh_c52701ad68d3/openid/oD4PxjjVsNaThoVhIX1wD0gIqPD4/id/1.html
+ERR: Think\Controller:show方法不存在！
+
+[ 2016-03-05T13:00:39+08:00 ] 49.211.1.134 /weixin/weiphp/index.php?s=/addon/Xydzp/Xydzp/lists.html&mdm=17|22
+ERR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'ids' in 'field list'
+
+[ 2016-03-05T13:14:19+08:00 ] 49.211.1.134 /weixin/weiphp/index.php?s=/addon/Scratch/Scratch/show/token/gh_c52701ad68d3/openid/oD4PxjjVsNaThoVhIX1wD0gIqPD4/id/1.html
+ERR: Think\Controller:show方法不存在！
+

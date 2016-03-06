@@ -3,7 +3,7 @@
 .container{ background:none}
 header{ text-align:center}
 .banner{ width:100%; overflow:hidden; position:relative;}
-.banner ul{ position:absolute; left:0; top:0; z-index:10; margin:0;}
+.banner ul{ position:absolute; left:0; top:0; z-index:10; -webkit-animation:}
 .banner ul li{ float:left; display:table-cell; position:relative}
 .banner li a{ width:100%; height:100%; display:block;}
 .banner li .title{background-color:RGBA(0,0,0,.5); height:30px; color:#fff; line-height:30px; padding-left:10px; position:absolute; left:0; bottom:0; width:100%; z-index:1000;}

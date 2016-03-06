@@ -39,9 +39,8 @@ class WeixinModel extends Model {
 			}
 			
 			get_token ( $info ['token'] ); // 设置token
-			
 			$this->wxcpt = new \WXBizMsgCrypt ( 'weiphp', $info ['encodingaeskey'], $info ['appid'] );
-			
+
 			$sMsg = ""; // 解析之后的明文
 			$errCode = $this->wxcpt->DecryptMsg ( $this->sEncryptMsg, $this->sReqTimeStamp, $this->sReqNonce, $content, $sMsg );
 			if ($errCode != 0) {

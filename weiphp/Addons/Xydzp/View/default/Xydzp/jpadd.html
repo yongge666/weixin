@@ -1,27 +1,36 @@
 <extend name="Base/common" />
 <block name="body">
   <div class="span9 page_message">
-    <section id="contents"> <include file="Addons/_nav" />
+    <section id="contents">
+      <ul class="tab-nav nav">
+        <li class=""><a href="{:U('lists')}">活动管理</a></li>
+		<li><a href="{:U('jpoplists')}">奖品库管理</a></li>
+		<li><a href="{:U('jplists?xydzp_id='.$xydzp_id)}">编号为({$xydzp_id})的奖励机制配置</a></li>
+        <li class="current"><a href="###">编号为({$xydzp_id})的新增奖品</a></li>
+      </ul>
       <div class="tab-content"> 
         <!-- 表单 -->
         <form id="form" action="{:U('jpadd?xydzp_id='.$xydzp_id)}" method="post" class="form-horizontal">
           <!-- 基础文档模型 -->
-          <input type="hidden" class="text input-large" name="xydzp_id" value="{$xydzp_id}">
-          <div class="form-item cf">
-            <label class="item-label">选择奖品<span class="check-tips">选择奖品库的奖品</span></label>
-            <div class="controls">
-              <select name="xydzp_option_id">
-                <volist name="jpdata" id="jp">
-                  <option value="{$jp['id']}">{$jp['title']}</option>
-                </volist>
-              </select>
-            </div>
-          </div>
-
-              <volist name="fields" id="field">
+		  <input type="hidden" class="text input-large" name="xydzp_id" value="{$xydzp_id}">
+		  <div class="form-item cf">
+                    <label class="item-label">选择奖品<span class="check-tips">选择奖品库的奖品</span></label>
+                    <div class="controls">
+						<select name="xydzp_option_id">
+                            <volist name="jpdata" id="jp">
+								<option value="{$jp['id']}">{$jp['title']}</option>
+                            </volist>
+                        </select>
+					</div>
+			  </div>
+          <volist name=":parse_config_attr($model['field_group'])" id="group">
+            <div id="tab{$key}" class="tab-pane <eq name="key" value="1">in</eq> tab{$key}">
+			  
+              <volist name="fields[$key]" id="field">
                 <if condition="$field['is_show'] == 4">
                   <input type="hidden" class="text input-large" name="{$field.name}" value="{:I($field[name], $field[value])}">
                 </if>
+				
                 <if condition="$field['is_show'] == 1 || $field['is_show'] == 2 || ($field['is_show'] == 5 && I($field['name']))">
                   <div class="form-item cf">
                     <label class="item-label">{$field['title']}<span class="check-tips">
@@ -46,10 +55,8 @@
                         <case value="bool">
                           <select name="{$field.name}">
                             <volist name=":parse_field_attr($field['extra'])" id="vo"> <option value="{$key}" 
-                              
                               <eq name="field.value" value="$key">selected</eq>
                               >{$vo}
-                              
                               </option>
                             </volist>
                           </select>
@@ -57,10 +64,8 @@
                         <case value="select">
                           <select name="{$field.name}">
                             <volist name=":parse_field_attr($field['extra'])" id="vo"> <option value="{$key}" 
-                              
                               <eq name="field.value" value="$key">selected</eq>
                               >{$vo}
-                              
                               </option>
                             </volist>
                           </select>
@@ -90,7 +95,7 @@
                             <input type="hidden" name="{$field.name}" id="cover_id_{$field.name}"/>
                             <div class="upload-img-box" rel='img'>
                               <notempty name="data[$field['name']]">
-                                <div class="upload-pre-item"><img src="{$data[$field['name']]|get_cover_url}"/></div>
+                                <div class="upload-pre-item"><img src="__ROOT__{$data[$field['name']]|get_cover='path'}"/></div>
                               </notempty>
                             </div>
                           </div>
@@ -174,8 +179,11 @@
                     </div>
                   </div>
                 </if>
-              </volist>
-              <script type="text/javascript">
+              </volist>              
+          
+
+
+<script type="text/javascript">
 //上传图片
 /* 初始化上传插件 */
 var node = '';
@@ -246,11 +254,13 @@ $(function(){
 });
 </script> 
 
-          <div class="form-item cf">
-            <input type="hidden" value="0" id="isjx" name="isjx">
-            <button class="btn submit-btn ajax-post" id="submitjx" type="submit" target-form="form-horizontal">保存后继续</button>
-            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">保 存</button>
-            <!--<a class="home_btn btn-return" href="javascript:;">返 回</a>--> </div>
+            </div>
+          </volist>
+          <div class="form-item cf">			
+			<input type="hidden" value="0" id="isjx" name="isjx">
+			<button class="home_btn submit-btn ajax-post" id="submitjx" type="submit" target-form="form-horizontal">保存后继续</button>
+            <button class="home_btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">保 存</button>
+            <a class="home_btn btn-return" href="javascript:;">返 回</a> </div>
         </form>
       </div>
     </section>

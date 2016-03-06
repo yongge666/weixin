@@ -19,9 +19,9 @@ class ExamController extends AddonsController {
 	}
 	function preview() {
 		$param ['exam_id'] = I ( 'id', 0, 'intval' );
-		$url = addons_url('Exam://Exam/show',$param);
-		$this->assign('url', $url);
-		$this->display(SITE_PATH . '/Application/Home/View/default/Addons/preview.html');
+		$url = addons_url ( 'Exam://Exam/show', $param );
+		// dump($url);
+		redirect ( $url );
 	}
 	function show($html = 'show') {
 		$map ['id'] = $exam_id = I ( 'exam_id', 0, 'intval' );
@@ -38,20 +38,20 @@ class ExamController extends AddonsController {
 		$this->display ( $html );
 	}
 	function profile() {
-		$map ['id'] = $this->mid;
-		$info = M ( 'follow' )->where ( $map )->find ();
+		$map ['uid'] = $this->mid;
+		$info = M ( 'member' )->where ( $map )->find ();
 		$this->assign ( 'info', $info );
 		
 		if (IS_POST) {
-			if (! empty ( $_POST ['nickname'] ) && $_POST ['nickname'] != $info ['nickname']) {
-				$data ['nickname'] = I ( 'post.nickname' );
+			if (! empty ( $_POST ['truename'] ) && $_POST ['truename'] != $info ['truename']) {
+				$data ['truename'] = I ( 'post.truename' );
 			}
 			if (! empty ( $_POST ['mobile'] ) && $_POST ['mobile'] != $info ['mobile']) {
 				$data ['mobile'] = I ( 'post.mobile' );
 			}
 			
 			if (! empty ( $data )) {
-				$res = M ( 'follow' )->where ( $map )->save ( $data );
+				$res = M ( 'member' )->where ( $map )->save ( $data );
 			}
 			
 			redirect ( U ( 'exam', 'exam_id=' . $_REQUEST ['exam_id'] ) );
@@ -124,9 +124,6 @@ class ExamController extends AddonsController {
 		$this->display ();
 	}
 	function finish() {
-		// 增加积分
-		add_credit ( 'exam' );
-		
 		$this->show ( 'finish' );
 	}
 	
@@ -149,7 +146,6 @@ class ExamController extends AddonsController {
 		$correct = array_map ( 'trim', $correct );
 		
 		$diff = array_diff ( $correct, $answer );
-		$diff2 = array_diff ( $answer, $correct );
-		return empty ( $diff ) && empty ( $diff2 ) ? $question ['score'] : 0;
+		return empty ( $diff ) ? $question ['score'] : 0;
 	}
 }

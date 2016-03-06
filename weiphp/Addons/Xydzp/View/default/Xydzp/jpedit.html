@@ -2,30 +2,34 @@
 <block name="body">
   <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js?v={:SITE_VERSION}"></script>
   <!-- 标签页导航 -->
-  
   <div class="span9 page_message">
-    <section id="contents"> <include file="Addons/_nav" />
+    <section id="contents">
+      <ul class="tab-nav nav">
+        <li class=""><a href="{:U('lists')}">活动管理</a></li>
+		<li><a href="{:U('jpoplists')}">奖品库管理</a></li>
+		<li ><a href="{:U('jplists?xydzp_id='.$xydzp_id)}">编号为({$xydzp_id})的奖励机制配置</a></li>
+        <li class="current"><a href="###">编辑奖品</a></li>
+      </ul>
       <div class="tab-content"> 
         <!-- 表单 -->
         <form id="form" action="{:U('jpedit?xydzp_id='.$xydzp_id.'&model='.$model['id'])}" method="post" class="form-horizontal">
-           <div id="tab{$key}" class="<eq name="key" value="1">in
+          <!-- 基础文档模型 -->
+		  <div class="form-item cf">
+                    <label class="item-label">选择奖品<span class="check-tips">选择奖品库的奖品</span></label>
+                    <div class="controls">
+						<select name="xydzp_option_id">
+                            <volist name="jpdata" id="jp">
+							
+									<option <if condition="$seljpdata==$jp['id']">selected="selected"</if>	 value="{$jp['id']}">{$jp['title']}</option>
+                            </volist>
+                        </select>
+					</div>
+			  </div>
+          <volist name=":parse_config_attr($model['field_group'])" id="group">
+            <div id="tab{$key}" class="tab-pane <eq name="key" value="1">in
               </eq>
               tab{$key}">
-          <!-- 基础文档模型 -->
-          <div class="form-item cf">
-                <label class="item-label">选择奖品<span class="check-tips">选择奖品库的奖品</span></label>
-                <div class="controls">
-                  <select name="xydzp_option_id">
-                    <volist name="jpdata" id="jp"> <option 
-                      <if condition="$seljpdata==$jp['id']">selected="selected"</if>
-                         value="{$jp['id']}">{$jp['title']}
-                      </option>
-                    </volist>
-                  </select>
-                </div>
-              </div>
-
-              <volist name="fields" id="field">
+              <volist name="fields[$key]" id="field">
                 <if condition="$field['is_show'] == 4">
                   <input type="hidden" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
                 </if>
@@ -53,10 +57,8 @@
                         <case value="bool">
                           <select name="{$field.name}">
                             <volist name=":parse_field_attr($field['extra'])" id="vo"> <option value="{$key}" 
-                              
                               <eq name="data[$field['name']]" value="$key">selected</eq>
                               >{$vo}
-                              
                               </option>
                             </volist>
                           </select>
@@ -64,10 +66,8 @@
                         <case value="select">
                           <select name="{$field.name}">
                             <volist name=":parse_field_attr($field['extra'])" id="vo"> <option value="{$key}" 
-                              
                               <eq name="data[$field['name']]" value="$key">selected</eq>
                               >{$vo}
-                              
                               </option>
                             </volist>
                           </select>
@@ -75,7 +75,6 @@
                         <case value="radio">
                           <volist name=":parse_field_attr($field['extra'])" id="vo">
                             <label class="radio"> <input type="radio" value="{$key}" name="{$field.name}" 
-                              
                               <eq name="data[$field['name']]" value="$key">checked="checked"</eq>
                               >{$vo} </label>
                           </volist>
@@ -83,7 +82,6 @@
                         <case value="checkbox">
                           <volist name=":parse_field_attr($field['extra'])" id="vo">
                             <label class="checkbox"> <input type="checkbox" value="{$key}" name="{$field.name}[]" 
-                              
                               <in name="key" value="$data[$field['name']]" >checked="checked"</in>
                               >{$vo} </label>
                           </volist>
@@ -95,11 +93,12 @@
                         </case>
                         <case value="picture">
                           <div class="controls">
+                          	
                             <input type="file" id="upload_picture_{$field.name}">
                             <input type="hidden" name="{$field.name}" id="cover_id_{$field.name}" value="{$data[$field['name']]}"/>
                             <div class="upload-img-box" rel='img'>
                               <notempty name="data[$field['name']]">
-                                <div class="upload-pre-item"><img src="{$data[$field['name']]|get_cover_url}"/></div>
+                                <div class="upload-pre-item"><img src="__ROOT__{$data[$field['name']]|get_cover='path'}"/></div>
                               </notempty>
                             </div>
                           </div>
@@ -138,13 +137,15 @@
                         </case>
                         <case value="file">
                           <div class="controls">
-                            <input type="file" id="upload_file_{$field.name}">
-                            <input type="hidden" name="{$field.name}" value="{$data[$field['name']]}"/>
-                            <div class="upload-img-box">
-                              <present name="data[$field['name']]">
-                                <div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]|get_table_field=###,'id','name','File'}</div>
-                              </present>
-                            </div>
+                          	
+                                <input type="file" id="upload_file_{$field.name}">
+                                <input type="hidden" name="{$field.name}" value="{$data[$field['name']]}"/>
+                                <div class="upload-img-box">
+                                  <present name="data[$field['name']]">
+                                    <div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]|get_table_field=###,'id','name','File'}</div>
+                                  </present>
+                                </div>
+                             
                           </div>
                           <script type="text/javascript">
 								//上传图片
@@ -184,11 +185,14 @@
                   </div>
                 </if>
               </volist>
-
+              
+            </div>
+      
+          </volist>
           <div class="form-item cf">
             <input type="hidden" name="id" value="{$data.id}">
-            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
-            
+            <button class="home_btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <a class="home_btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</a> </div>
         </form>
       </div>
     </section>
@@ -198,7 +202,6 @@
 <block name="script">
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
 <php>
-
 if(C('COLOR_STYLE')=='blue_color') echo '
 <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
 ';

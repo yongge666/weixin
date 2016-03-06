@@ -25,7 +25,7 @@
           <div class="form-item cf">
             <label class="checkbox"> <input type="checkbox" value="{$key}" name="answer[]" 
               <in name="key" value="$data" >checked="checked"</in>
-              >{$key}: {$vo} </label>
+              >{$vo} </label>
           </div>
         </volist>
       </case>
@@ -35,7 +35,7 @@
           <label class="radio"> <input type="radio" value="{$key}" name="answer"                               
         
             <eq name="data" value="$key">checked="checked"</eq>
-            >{$key}: {$vo} </label>
+            >{$vo} </label>
         </div>
       </volist>
     </switch>
@@ -45,7 +45,7 @@
   
 </div>
 <div class="bottom"></div>
-<p class="copyright">{$system_copy_right}</p>
+<p class="copyright">WeiPHP 版权所有</p>
 <script type="text/javascript">
 var is_require = "{$question.is_must}";
 var widget = "{$question.type}";

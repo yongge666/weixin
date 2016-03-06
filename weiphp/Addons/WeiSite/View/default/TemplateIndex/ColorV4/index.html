@@ -1,6 +1,6 @@
 <include file="Public/mobile_head"/>	
 <link href="{:CUSTOM_TEMPLATE_PATH}Index/ColorV4/main.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
-<body id="weisite" style="background:#eee; background-size:100% 100%">
+<body id="weisite" style="background:#eee url({$config.background}) no-repeat; background-size:100% 100%">
 <div class="container">
     <if condition="!empty($slideshow)">
     <section class="banner">
@@ -12,13 +12,11 @@
             </li>
          </volist>
         </ul>
-        <if condition="count(slideshow) gt 1">
         <span class="identify">
         <volist name="slideshow" id="vo">
         	<em></em>
          </volist>        
         </span>
-        </if>
     </section>
     </if>
     <if condition="!empty($category)">
@@ -40,10 +38,6 @@
 <notempty name="config.code">
 <p class="hide bdtongji">
 {$config.code}
-</p>
-<else />
-<p class="hide bdtongji">
-{$tongji_code}
 </p>
 </notempty>
 </body>

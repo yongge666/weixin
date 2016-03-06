@@ -5,7 +5,7 @@ use Common\Controller\Addon;
 
 /**
  * 幸运大转盘插件
- * @author 南方卫视
+ * @author les、拉帮姐派
  */
 
     class XydzpAddon extends Addon{
@@ -15,7 +15,7 @@ use Common\Controller\Addon;
             'title'=>'幸运大转盘',
             'description'=>'网络上最热门的抽奖活动 支持作弊等各种详细配置',
             'status'=>1,
-            'author'=>'南方卫视',
+            'author'=>'les、拉帮姐派',
             'version'=>'0.1',
             'has_adminlist'=>1,
             'type'=>1         

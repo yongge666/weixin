@@ -1,0 +1,3 @@
+<?php
+//000000086400a:22:{s:2:"id";s:1:"1";s:7:"keyword";s:9:"刮刮卡";s:8:"use_tips";s:24:"打开页面即可刮奖";s:5:"title";s:12:"刮刮手气";s:5:"intro";s:0:"";s:8:"end_time";s:10:"1458402900";s:5:"cover";s:1:"3";s:5:"cTime";s:10:"1457153923";s:5:"token";s:15:"gh_c52701ad68d3";s:10:"start_time";s:10:"1457153700";s:8:"end_tips";s:28:"截止时间2016年3月19日";s:7:"end_img";N;s:11:"predict_num";s:3:"100";s:7:"max_num";s:1:"3";s:17:"follower_condtion";s:1:"1";s:15:"credit_conditon";s:1:"0";s:10:"credit_bug";s:1:"0";s:15:"addon_condition";N;s:13:"collect_count";s:1:"1";s:10:"view_count";s:1:"0";s:11:"update_time";s:10:"1457153923";s:8:"template";s:7:"default";}
+?>

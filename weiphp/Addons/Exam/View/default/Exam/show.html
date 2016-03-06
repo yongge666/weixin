@@ -14,7 +14,7 @@
             <a href="javascript:void(0)" onClick="begin()" class="lead_btn">马上开始</a>
         </div>
         <div class="bottom"></div>
-        <p class="copyright">{$system_copy_right}</p>
+        <p class="copyright">WeiPHP 版权所有</p>
   	</div>  
 </body>
 </html>
@@ -32,7 +32,6 @@ function begin(){
 		return false;
 	}
 	
-	//window.location.href="{:U('profile','exam_id='.$info[id])}";  直接进入考试，项目不需要填写个人信息了
-	window.location.href="{:U('exam','exam_id='.$info[id])}";
+	window.location.href="{:U('profile','exam_id='.$info[id])}";
 }
 </script>

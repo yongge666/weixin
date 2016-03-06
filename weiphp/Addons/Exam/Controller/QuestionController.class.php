@@ -8,8 +8,6 @@ class QuestionController extends AddonsController {
 	var $model;
 	var $exam_id;
 	function _initialize() {
-		parent::_initialize();
-		
 		$this->model = $this->getModel ( 'exam_question' );
 		
 		$param ['exam_id'] = $this->exam_id = intval ( $_REQUEST ['exam_id'] );
@@ -33,10 +31,7 @@ class QuestionController extends AddonsController {
 		$add_url = U ( 'add', $param );
 		$this->assign ( 'add_url', $add_url );
 		
-		$map ['exam_id'] = $this->exam_id;
-		session ( 'common_condition', $map );
-		
-		parent::common_lists ( $this->model, 0, '', 'sort asc, id asc' );
+		parent::common_lists ( $this->model );
 	}
 	
 	// 通用插件的编辑模型

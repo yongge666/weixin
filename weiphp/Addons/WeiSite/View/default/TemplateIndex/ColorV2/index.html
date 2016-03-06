@@ -28,7 +28,7 @@
                 <a class="item" href="{$vo.url}">
                     <span class="icon random_color">
                     	<img src="{$vo.icon}"/><br/>
-                        {$vo.title|msubstr=0,5}
+                        {$vo.title}
                         </span>
                 </a>
             </volist>
@@ -42,10 +42,6 @@
 <notempty name="config.code">
 <p class="hide bdtongji">
 {$config.code}
-</p>
-<else />
-<p class="hide bdtongji">
-{$tongji_code}
 </p>
 </notempty>
 </body>

@@ -60,7 +60,7 @@ class CmsController extends BaseController {
 			
 			$extra = $this->getCateData ();
 			if (! empty ( $extra )) {
-				foreach ( $fields as &$vo ) {
+				foreach ( $fields [1] as &$vo ) {
 					if ($vo ['name'] == 'cate_id') {
 						$vo ['extra'] .= "\r\n" . $extra;
 					}
@@ -70,11 +70,6 @@ class CmsController extends BaseController {
 			// 获取数据
 			$data = M ( get_table_name ( $model ['id'] ) )->find ( $id );
 			$data || $this->error ( '数据不存在！' );
-			
-		$token = get_token ();
-		if (isset ( $data ['token'] ) && $token != $data ['token'] && defined ( 'ADDON_PUBLIC_PATH' )) {
-			$this->error ( '非法访问！' );
-		}			
 			
 			$this->assign ( 'fields', $fields );
 			$this->assign ( 'data', $data );
@@ -104,7 +99,7 @@ class CmsController extends BaseController {
 			
 			$extra = $this->getCateData ();
 			if (! empty ( $extra )) {
-				foreach ( $fields as &$vo ) {
+				foreach ( $fields [1] as &$vo ) {
 					if ($vo ['name'] == 'cate_id') {
 						$vo ['extra'] .= "\r\n" . $extra;
 					}

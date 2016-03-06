@@ -4,7 +4,7 @@
   <div class="span9 page_message">
     <section id="contents"> 
       <include file="Addons/_nav" />  
-      <div class="table-bar">
+      <div class="cf">
         <div class="fl">
           <empty name="model.extend">
 			<div class="tools">
@@ -18,8 +18,7 @@
         <div class="search-form fr cf">
           <div class="sleft">
             <php> $search_url || $search_url = addons_url($_REQUEST ['_addons'].'://'.$_REQUEST ['_controller'].'/lists',array('model'=>$model['name']));</php>
-            <php>empty($search_key) && $search_key=$model['search_key'];empty($search_key) && $search_key='title';</php>
-            <input type="text" name="{$search_key}" class="search-input" value="{:I($search_key)}" placeholder="请输入关键字">
+            <input type="text" name="{$model['search_key']|default='title'}" class="search-input" value="{:I('title')}" placeholder="请输入关键字">
             <a class="sch-btn" href="javascript:;" id="search" url="{$search_url}"><i class="btn-search"></i></a> </div>
         </div>
         </if>
@@ -27,12 +26,12 @@
       
       <!-- 数据列表 -->
       <div class="data-table">
-        <div class="table-striped">
-          <table cellpadding="0" cellspacing="1">
+        <div class="data-table table-striped">
+          <table>
             <!-- 表头 -->
             <thead>
               <tr>
-                <if condition="$check_all"><th class="row-selected row-selected"> <input class="regular-checkbox check-all" id="checkAll" type="checkbox"><label for="checkAll"></label></th></if>
+                <if condition="$check_all"><th class="row-selected row-selected"> <input class="check-all" type="checkbox"></th></if>
                 <volist name="list_grids" id="field">
                   <th>{$field.title}</th>
                 </volist>
@@ -43,7 +42,7 @@
             <tbody>
               <volist name="list_data" id="data">
                 <tr>
-                  <if condition="$check_all"><td><input class="regular-checkbox ids" type="checkbox" value="{$data['id']}" id="ids_{$data['id']}" name="ids[]"><label for="ids_{$data['id']}"></label></td></if>
+                  <if condition="$check_all"><td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td></if>
                   <volist name="list_grids" id="grid">
                     <td>{:get_list_field($data,$grid,$model)}</td>
                   </volist>

@@ -8,8 +8,6 @@ class AnswerController extends AddonsController {
 	var $model;
 	var $exam_id;
 	function _initialize() {
-		parent::_initialize();
-		
 		$this->model = $this->getModel ( 'exam_answer' );
 		
 		$param ['exam_id'] = $this->exam_id = intval ( $_REQUEST ['exam_id'] );
@@ -46,8 +44,8 @@ class AnswerController extends AddonsController {
 		$name = parse_name ( get_table_name ( $this->model ['id'] ), true );
 		$list = M ( $name )->where ( $map )->field ( $data ['fields'] )->order ( 'id DESC' )->group ( 'uid' )->selectPage ();
 		foreach ( $list ['list_data'] as &$vo ) {
-			$member = get_userinfo ( $vo ['uid'] );
-			$vo ['truename'] = $member ['truename']? $member ['truename']: $member ['nickname'];
+			$member = get_memberinfo ( $vo ['uid'] );
+			$vo ['truename'] = $member ['truename'];
 			$vo ['mobile'] = $member ['mobile'];
 			$vo ['score'] = $vo ['total'];
 		}
@@ -66,11 +64,11 @@ class AnswerController extends AddonsController {
 		$fields [] = 'question';
 		$fields [] = 'answer';
 		
-		$girds ['field']  = 'question';
+		$girds ['field'] [0] = 'question';
 		$girds ['title'] = '题目';
 		$list_data ['list_grids'] [] = $girds;
 		
-		$girds ['field']  = 'answer';
+		$girds ['field'] [0] = 'answer';
 		$girds ['title'] = '回答内容';
 		$list_data ['list_grids'] [] = $girds;
 		

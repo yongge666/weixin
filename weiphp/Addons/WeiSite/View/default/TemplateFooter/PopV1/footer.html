@@ -540,15 +540,13 @@
 }
 </style>
 <script src="{:CUSTOM_TEMPLATE_PATH}Footer/PopV1/index.js"></script>
-<notempty name="footer">
 <div class="flyout-wrap">
 <a class="flyout-btn" href="javascript:;" title="Toggle"><span></span></a>
 <ul class="flyout flyout-init">
     <volist name="footer" id="vo">
-    <li><a href="{$vo.url}">{$vo.icon}</li>
+    <li><a href="{$vo.url}"><img src="{$vo.icon}"/></li>
   </volist>
 </ul><!-- .flyout -->
 </div><!-- .flyout-wrap -->
-</notempty>
 
   
