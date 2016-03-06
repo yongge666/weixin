@@ -11,7 +11,6 @@ include('weixin.class.php');//引用刚定义的微信消息处理类
 $weixin = new Weixin(TOKEN,DEBUG);//实例化
 if(isset($_GET["echostr"])){
 	$weixin->valid();
-	$weixin->write_log('token校验失败!');
 	exit;
 }
 $weixin->getMsg();

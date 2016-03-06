@@ -88,7 +88,7 @@ class Weixin
     public function reply($data)
     {
         if ($this->debug) {
-            $this->write_log($data);
+            $this->write_log('回复数据：'.$data);
         }
         echo $data;
     }
@@ -103,7 +103,7 @@ class Weixin
                 exit;
             }
         }else{
-            write_log('认证失败');
+            write_log('Token认证失败');
             exit;
         }
     }
@@ -129,7 +129,7 @@ class Weixin
 
 
     //这里是你记录调试信息的地方
-    public function write_log($log){
+    private function write_log($log){
         header("Content-type: text/html; charset=utf-8");
         /********************
         1、写入内容到文件,追加内容到文件
