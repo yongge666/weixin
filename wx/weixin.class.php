@@ -128,7 +128,7 @@ class Weixin
     }
 
 
-    //这里是你记录调试信息的地方
+    //日志写入
     private function write_log($log){
         header("Content-type: text/html; charset=utf-8");
         /********************
