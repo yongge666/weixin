@@ -6,173 +6,48 @@
 
 //define your token
 define("TOKEN", "c5cb0683dfd539596a682e4660ac336a");
-$wechatObj = new wechatCallbackapiTest();
-
+define('DEBUG', true);
+include('weixin.class.php');//引用刚定义的微信消息处理类
+$weixin = new Weixin(TOKEN,DEBUG);//实例化
 if(isset($_GET["echostr"])){
-	$wechatObj->valid();
+	$weixin->valid();
+	$weixin->write_log('token校验失败!');
 	exit;
-}else{
-	//身份验证只有一次，之后当用户发消息过来时,回复消息
-	$wechatObj->responseMsg();
 }
-
-//$wechatObj->valid();
-
-
-
-class wechatCallbackapiTest
-{
-	public function valid()
-    {
-        $echoStr = $_GET["echostr"];
-
-        //valid signature , option
-        if($this->checkSignature()){
-        	echo $echoStr;
-        	exit;
-        }
-    }
-
-    public function responseMsg()
-    {
-		//get post data, May be due to the different environments
-		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
-
-      	//extract post data
-		if (!empty($postStr)){
-                /* libxml_disable_entity_loader is to prevent XML eXternal Entity Injection,
-                   the best way is to check the validity of xml by yourself */
-                libxml_disable_entity_loader(true);
-              	$postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-                $fromUsername = $postObj->FromUserName;
-                $toUsername = $postObj->ToUserName;
-                $keyword = trim($postObj->Content);
-                $time = time();
-                $textTpl = "<xml>
-							<ToUserName><![CDATA[%s]]></ToUserName>
-							<FromUserName><![CDATA[%s]]></FromUserName>
-							<CreateTime>%s</CreateTime>
-							<MsgType><![CDATA[%s]]></MsgType>
-							<Content><![CDATA[%s]]></Content>
-							<FuncFlag>0</FuncFlag>
-							</xml>";             
-				if(!empty( $keyword ))
-                {
-              		$msgType = "text";
-                	/*$contentStr = "Welcome to wechat world!";
-                	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-					echo $resultStr;*/
-
-					//关键字回复
-					switch($keyword){
-						case '1':
-							$contentStr = "11111!";
-							break;
-
-						case '2':
-							$contentStr = "222222!";
-							break;
-
-						case '3':
-							$contentStr = "33333333!";
-							break;
-
-
-						case '4':
-							$contentStr = "44444444!";
-							break;
-						//回复图片
-						case 'image':
-							$textTpl='<xml>
-								<ToUserName><![CDATA[%s]]></ToUserName>
-								<FromUserName><![CDATA[%s]]></FromUserName>
-								<CreateTime>%s</CreateTime>
-								<MsgType><![CDATA[%s]]></MsgType>
-								<Image>
-								<MediaId><![CDATA[%s]]></MediaId>
-								</Image>
-								</xml>';
-							$msgType = "image";
-							$contentStr = '此处为图片的media_id';
-
-						case 'img&text':
-							$textTpl = '
-								<xml>
-								<ToUserName><![CDATA[%s]]></ToUserName>
-								<FromUserName><![CDATA[%s]]></FromUserName>
-								<CreateTime>%s</CreateTime>
-								<MsgType><![CDATA[%s]]></MsgType>
-								<ArticleCount>%s</ArticleCount>
-								<Articles>
-								<item>
-								<Title><![CDATA[%s]]></Title>
-								<Description><![CDATA[%s]]></Description>
-								<PicUrl><![CDATA[%s]]></PicUrl>
-								<Url><![CDATA[%s]]></Url>
-								</item>
-								<item>
-								<Title><![CDATA[%s]]></Title>
-								<Description><![CDATA[%s]]></Description>
-								<PicUrl><![CDATA[%s]]></PicUrl>
-								<Url><![CDATA[%s]]></Url>
-								</item>
-								</Articles>
-								</xml>';
-							$msgType = "news";
-							//图文条数
-							$articleCount = 1;
-							$title='标题';
-							$description = '描述';
-							//图片链接支持JPG、PNG格式，较好的效果为大图360*200，小图200*200
-							$picurl1 = 'http://www.so.com/link?url=http%3A%2F%2Fimage.so.com%2Fv%3Fq%3D%25E5%259B%25BE%25E7%2589%2587%26src%3D360pic_strong%26fromurl%3Dhttp%253A%252F%252Fwww.bbzhi.com%252Ffengjingbizhi%252Fsijizhutibizhiyiqingliangxiari%252Fdown_17800_2.htm%23multiple%3D1%26dataindex%3D2%26id%3D98da722a3a3f4aff5743e32cad389a79%26itemindex%3D0&q=%E5%9B%BE%E7%89%87&ts=1457194324&t=739779c3685affbd623ab67adbb1078';
-							$picurl2 = 'http://www.so.com/link?url=http%3A%2F%2Fimage.so.com%2Fv%3Fq%3D%25E5%259B%25BE%25E7%2589%2587%26src%3D360pic_strong%26fromurl%3Dhttp%253A%252F%252Fwww.bbzhi.com%252Ffengjingbizhi%252Fsijizhutibizhiyiqingliangxiari%252Fdown_17800_2.htm%23multiple%3D1%26dataindex%3D2%26id%3D98da722a3a3f4aff5743e32cad389a79%26itemindex%3D0&q=%E5%9B%BE%E7%89%87&ts=1457194324&t=739779c3685affbd623ab67adbb1078';
-							$url1 = '';
-							$url2 = '';
-							$contentStr = '此处为图片的media_id';
-
-						default:
-							$contentStr = '请输入数字';
-							break;
-					}
-
-					$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-					echo $resultStr;
-
-
-                }else{
-                	echo "Input something...";
-                }
-
-        }else {
-        	echo "";
-        	exit;
-        }
-    }
-		
-	private function checkSignature()
-	{
-        // you must define TOKEN by yourself
-        if (!defined("TOKEN")) {
-            throw new Exception('TOKEN is not defined!');
-        }
-        
-        $signature = $_GET["signature"];
-        $timestamp = $_GET["timestamp"];
-        $nonce = $_GET["nonce"];
-        		
-		$token = TOKEN;
-		$tmpArr = array($token, $timestamp, $nonce);
-        // use SORT_STRING rule
-		sort($tmpArr, SORT_STRING);
-		$tmpStr = implode( $tmpArr );
-		$tmpStr = sha1( $tmpStr );
-		
-		if( $tmpStr == $signature ){
-			return true;
+$weixin->getMsg();
+$type = $weixin->msgtype;//消息类型
+$username = $weixin->msg['FromUserName'];//哪个用户给你发的消息,这个$username是微信加密之后的，但是每个用户都是一一对应的
+if ($type==='text') {
+	if ($weixin->msg['Content']=='Hello2BizUser') {//微信用户第一次关注你的账号的时候，你的公众账号就会受到一条内容为'Hello2BizUser'的消息
+			$reply = $weixin->makeText('欢迎你关注天猫微店旗舰店，您将在第一时间获取最新打折促销活动哦');
 		}else{
-			return false;
-		}
+		//这里就是用户输入了文本信息
+			$keyword = $weixin->msg['Content'];   //用户的文本消息内容
+			//include_once("chaxun.php");//文本消息 调用查询程序
+			//$chaxun= new chaxun(DEBUG,$keyword,$username);
+			//$results['items'] =$chaxun->search();//查询的代码
+
+			//模拟查询数据
+			$results['content'] ='消息内容';
+			$results['items'][0]['title'] = '标题1';//
+			$results['items'][1]['title'] = '标题2';//
+			$results['items'][0]['description'] = 'description1';//
+			$results['items'][1]['description'] = 'description2';//
+			$results['items'][0]['picurl'] = 'http://licaiguanjia.wang/blog/wp-content/themes/enigma/images/1.png';//
+			$results['items'][1]['picurl'] = 'http://licaiguanjia.wang/blog/wp-content/themes/enigma/images/2.png';//
+			$results['items'][0]['url'] = 'http://www.sunupedu.com/';//
+			$results['items'][1]['url'] = 'http://licaiguanjia.wang/blog/';//
+			$reply = $weixin->makeNews($results);
 	}
+}elseif ($type==='location') {
+	//用户发送的是位置信息  稍后的文章中会处理
+}elseif ($type==='image') {
+	//用户发送的是图片 稍后的文章中会处理
+}elseif ($type==='voice') {
+	//用户发送的是声音 稍后的文章中会处理
 }
+$weixin->reply($reply);
+
+?>
 
 ?>
