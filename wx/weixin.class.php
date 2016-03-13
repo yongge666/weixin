@@ -11,6 +11,7 @@ class Weixin
     public $debug =  false;//是否debug的状态标示，方便我们在调试的时候记录一些中间数据
     public $setFlag = false;
     public $msgtype = 'text';   //('text','image','location')
+    public $eventtype = '';   //('subscribe','unsubscribe',‘SCAN’，‘CLICK’（点击菜单跳转链接时的事件推送），'location'（上报地理位置事件）,'VIEW'（点击菜单跳转链接时的事件推送）)
     public $msg = array();
 
     public function __construct($token,$debug)
@@ -29,6 +30,7 @@ class Weixin
         if (!empty($postStr)) {
             $this->msg = (array)simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $this->msgtype = strtolower($this->msg['MsgType']);
+            $this->eventtype = strtolower($this->msg['Event']);
         }
     }
 
@@ -84,6 +86,23 @@ class Weixin
         return $header . $Content . $footer;
     }
 
+    //回复图片信息
+    public function makeImg($media_id){
+        $textTpl = "
+                    <xml>
+                    <ToUserName><![CDATA[{$this->msg['FromUserName']}]]></ToUserName>
+                    <FromUserName><![CDATA[{$this->msg['ToUserName']}]]></FromUserName>
+                    <CreateTime>%s</CreateTime>
+                    <MsgType><![CDATA[image]]></MsgType>
+                    <Image>
+                    <MediaId><![CDATA[%s]]></MediaId>
+                    </Image>
+                    </xml>";
+        $time = time();
+        $resultStr = sprintf($textTpl, $time, $media_id);
+        return $resultStr;
+    }
+
 
     public function reply($data)
     {
@@ -91,6 +110,7 @@ class Weixin
             $this->write_log('回复数据：'.$data);
         }
         echo $data;
+        exit;
     }
 
 
